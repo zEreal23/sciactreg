@@ -1,0 +1,97 @@
+const User = require('../models/user');
+const formidable = require('formidable');
+
+exports.userById = (req, res, next, id) => {
+    User.findById(id)
+    // populate registered of user array
+    .populate('registered', '_id name')
+    .exec((err, user) => {
+        if(err || !user) {
+            return res.status(400).json({
+                error: "User not found"
+            });
+        }
+        req.profile = user;
+        next();
+    });
+};
+
+exports.read = (req, res) => {
+    req.profile.hashed_password = undefined;
+    req.profile.salt = undefined;
+    return res.json(req.profile);
+};
+
+/*exports.update = (req, res) => {
+    User.findOneAndUpdate({ _id: req.profile._id }, {$set: req.body}, {new: true}, (err, user) => {
+        if(err) {
+            return res.status(400).json({
+                error: "You are not authorized to perform this action"
+            });
+        }
+        req.profile.hashed_password = undefined;
+        req.profile.salt = undefined;
+        res.json(user);
+    });
+};*/
+
+exports.update = (req, res) => {
+    const { password } = req.body;
+
+    User.findOne({ _id: req.profile._id }, (err, user) => {
+        if(err || !user ) {
+            return res.status(400).json({
+                error: 'User not found'
+            });
+        }
+        
+        if(password) {
+            if(password.lenght < 6) {
+                return res.status(400).json({
+                    error: 'Password should be min 6 characters long'
+                });
+            } else {
+                user.password = password
+            }
+        }
+
+        user.save((err, updatedUser) => {
+            if(err) {
+                console.log('USER UPDATE ERROR', err)
+                return res.status(400).json({
+                    error: 'User update failed'
+                })
+            }
+            updatedUser.hashed_password = undefined
+            updatedUser.salt = undefined
+            res.json(updatedUser)
+        })
+    })
+}
+
+exports.list = (req, res) => {
+    User.find().exec((err, data) => {
+        if(err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
+// activities of user
+
+exports.addActivity = (req, res, next) => {
+    User.findByIdAndUpdate(
+        req.body.userId, 
+        {$push: {registered: req.body.registeredId}}
+    )
+    .populate('registered', '_id name')
+    .exec((err, result) => {
+        if(err) {
+            return res.status(400).json({error: err});
+        }
+        next();
+    })
+};

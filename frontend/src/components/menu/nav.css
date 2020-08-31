@@ -1,0 +1,87 @@
+.fixed-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: rgb(19, 18, 17);
+    display: flex;
+    padding-top: 10px;
+    z-index: 999;
+}
+
+.navbar-brand {
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-left: 30px;
+    border-right: 1px solid rgb(182, 182, 182);
+    padding-right: 30px;
+}
+
+.navbar-brand:hover {
+    color: white;
+}
+
+.nav-link {
+    color: white;
+}
+
+.navbar-nav li {
+    margin: 0px 20px;
+    font-weight: 500;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffae00;
+}
+
+.custom-toggler i {
+    font-size: 30px;
+    color: white;
+}
+
+.navbar-collapse {
+    background-color: rgb(19, 18, 17);
+}
+
+.navbar-nav li {
+    padding: 13px;
+}
+
+.active {
+    border-bottom: 1px solid #ffae00;
+    color: #ffae00;
+}
+
+.btn {
+    position: relative;
+    width: auto;
+    height: auto;
+    background-color: #ffae00;
+    border: none;
+    cursor: pointer;
+    min-width: 100px;
+    border-radius: 0;
+    transition: 0.3s;
+}
+.btn span {
+    position: relative;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: white;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 20px;
+}
+
+.btn:hover {
+    background-color: #ffa600;
+}

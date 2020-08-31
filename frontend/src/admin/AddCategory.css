@@ -1,0 +1,34 @@
+.add-cat-custom {
+    border: none;
+    border-radius: 0;
+    border-bottom: rgb(19, 17, 17) solid 1px;
+    transition: ease-in 0.2s;
+    letter-spacing: 2px;
+}
+
+.add-cat-custom:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-bottom: rgb(19, 17, 17) solid 3px;
+}
+
+.btn-cre-cat {
+    background-color: rgb(19, 17, 17);
+}
+
+.btn-cre-cat:hover {
+    background-color: black;
+}
+
+.show-add-error {
+    font-size: 14px;
+    color: red;
+    letter-spacing: 2px;
+}
+
+.show-add-success {
+    font-size: 14px;
+    color: green;
+    letter-spacing: 2px;
+}

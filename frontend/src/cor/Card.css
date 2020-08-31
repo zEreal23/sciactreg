@@ -1,0 +1,62 @@
+.card-custom-act {
+    border-radius: 0;
+    border: rgb(19, 17, 17) 1px solid;
+    height: 250px;
+}
+
+.act-name {
+    text-overflow: ellipsis;
+}
+
+.card-custom-act .act-date {
+    font-size: 11px;
+    letter-spacing: 3px;
+    background: rgb(19, 17, 17);
+    color: white;
+    text-align: center;
+    padding: 3px 0px;
+}
+
+.card-custom-act h3 {
+    letter-spacing: 2px;
+    margin-top: 15px;
+    text-align: center;
+    padding: 3px 0px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+
+.card-custom-act h6 {
+    margin: 0px 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.card-custom-act p {
+    margin: 0px 15px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    height: 70px;
+    text-overflow: clip 
+}
+
+.view-act {
+    position: relative;
+    width: 100%;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: white;
+    transform: translateY(-170%);
+    text-decoration: none;
+}
+
+.view-act:hover {
+    background-color: #ffa600;
+    text-decoration: none;
+}
+
+.view-act a {
+    text-decoration: none;
+}

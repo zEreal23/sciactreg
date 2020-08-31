@@ -1,0 +1,226 @@
+
+
+.signin {
+    position: absolute;
+    top: 53%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 550px;
+    height: 600px;
+    background-color: white;
+    transition: 0.5s ease-in;
+    z-index: 99;
+    padding: 15px 5%;
+}
+
+.signin h1 {
+    text-align: center;
+    margin-top: 15%;
+    letter-spacing: 0.5vw;
+    font-weight: bold;
+    color: rgb(19, 17, 17);
+}
+
+.custom-form {
+    margin-top: 20%;
+}
+
+.submit-btn {
+    width: 500px;
+}
+
+.si-bg {
+    position: absolute;
+    top: 53%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 80%;
+    height: 80%;
+    background-color: none;
+    border: 10px solid #ffae00;
+}
+
+.si-form {
+    margin: 25px;
+}
+
+.box-bg1 {
+    position: absolute;
+    width: 15vw;
+    height: 100%;
+    background-color: #ffae00;
+}
+
+.box-bg2 {
+    position: absolute;
+    width: 15vw;
+    height: 30vw;
+    background-color: none;
+    border: solid 1px white;
+    top: 30%;
+    left: 10%;
+}
+
+.box-bg3 {
+    position: absolute;
+    width: 50vw;
+    height: 25vw;
+    background-color: #ffae00;
+    top: 48.8%;
+    left: 50%;
+    overflow: hidden;
+}
+
+.box-bg3 .bg-sci {
+    position: absolute;
+    font-size: 15vw;
+    text-transform: uppercase;
+    font-weight: 900;
+    overflow: hidden;
+    white-space: nowrap;
+    top: -6vw;
+    left: -2vw;
+    color: #ffae00;
+    text-shadow: -2px 0 #ff8800, 0 2px #ff8800, 2px 0 #ff8800, 0 -2px #ff8800;
+}
+
+.box-bg3 .bg-sci2 {
+    position: absolute;
+    font-size: 15vw;
+    text-transform: uppercase;
+    font-weight: 900;
+    overflow: hidden;
+    white-space: nowrap;
+    top: 6vw;
+    color: #ffae00;
+    left: -2vw;
+    text-shadow: -2px 0 #ff8800, 0 2px #ff8800, 2px 0 #ff8800, 0 -2px #ff8800;
+}
+
+.box-bg3 .bg-sci3 {
+    position: absolute;
+    font-size: 15vw;
+    text-transform: uppercase;
+    font-weight: 900;
+    overflow: hidden;
+    white-space: nowrap;
+    top: 18vw;
+    color: #ffae00;
+    left: -2vw;
+    text-shadow: -2px 0 #ff8800, 0 2px #ff8800, 2px 0 #ff8800, 0 -2px #ff8800;
+}
+
+.box-bg4 {
+    position: absolute;
+    width: 5vw;
+    height: 0.5vw;
+    background-color: white;
+    top: 20%;
+    left: 13%;
+}
+
+.box-bg1 .bg-sci4 {
+    position: absolute;
+    font-size: 3vw;
+    color: white;
+    letter-spacing: 5vw;
+    top: 10%;
+    left: 0%;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+}
+
+.box-bg5 {
+    position: absolute;
+    width: 15vw;
+    height: 0.3vw;
+    background-color: white;
+    top: 45%;
+    left: 80%;
+}
+
+.box-bg6 {
+    position: absolute;
+    width: 35vw;
+    height: 15vw;
+    background-color: none;
+    border: solid 1px white;
+    top: 0%;
+    left: 60%;
+}
+
+.box-bg7 {
+    position: absolute;
+    width: 15vw;
+    height: 15vw;
+    background-color: #ffae00;
+    top: 10%;
+    left: 27%;
+    overflow: hidden;
+    z-index: -1;
+    background: #ffae00;
+    background-image: linear-gradient(white 1px, transparent 0),
+                    linear-gradient(90deg, white 1px, transparent 0);
+    background-size: 50px 50px;
+}
+
+.submit-btn {
+    position: relative;
+    width: auto;
+    height: auto;
+    background-color: #ffae00;
+    border: none;
+    cursor: pointer;
+    min-width: 100%;
+    border-radius: 0;
+    transition: 0.3s;
+    width: 100%;
+    height: 50px;
+    margin-top: 15%;
+}
+.submit-btn span {
+    position: relative;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.submit-btn:hover {
+    background-color: #ffa600;
+}
+
+
+
+.si-ip-custom {
+    border: none;
+    border-radius: 0;
+    border-bottom: rgb(19, 17, 17) solid 1px;
+    transition: ease-in 0.2s;
+}
+
+.si-ip-custom:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-bottom: #ffa600 solid 3px;
+}
+
+label {
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+.err-text {
+    text-align: center;
+    color: red;
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .signin {
+        width: 90%;
+        height: 70%;
+    }
+}
+

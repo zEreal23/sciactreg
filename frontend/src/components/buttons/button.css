@@ -1,0 +1,31 @@
+body {
+    font-family: 'Poppins' , 'Kanit' , serif;
+}
+
+.btn {
+    position: relative;
+    width: auto;
+    height: auto;
+    background-color: #ffae00;
+    border: none;
+    cursor: pointer;
+    min-width: 100px;
+    border-radius: 0;
+    transition: 0.3s;
+}
+.btn span {
+    position: relative;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: white;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 20px;
+}
+
+.btn:hover {
+    background-color: #ffa600;
+}
+
