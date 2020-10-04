@@ -1,4 +1,5 @@
 import { API } from '../config';
+import queryString from 'query-string';
 
 export const getActivities = (sortBy) => {
     return fetch(`${API}/Activities?sortBy=${sortBy}&order=desc&limit=12`, {
@@ -75,8 +76,9 @@ export const readForRegist = (actId, token, userId) => {
     .catch(err => console.log(err));
 }
 
-export const getFilteredAct = (filters = {}) => {
+export const getFilteredAct = (skip, filters = {}) => {
     const data = {
+        skip,
         filters
     }
     return fetch(`${API}/activities/by/search`, {
@@ -95,3 +97,14 @@ export const getFilteredAct = (filters = {}) => {
     });
 };
 
+export const list = params => {
+    const query = queryString.stringify(params)
+    console.log('query', query)
+    return fetch(`${API}/activities/search?${query}`, {
+        method: "GET"
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};

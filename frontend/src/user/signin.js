@@ -39,6 +39,7 @@ const Signin = () => {
                         redirectToReferror: true
                     });
                 });
+                window.location.reload();
             }
         });
     };

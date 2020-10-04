@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './home.css'
 import moment from 'moment';
-import { getActivities, getTodayAct, getMonthAct } from './apiCors';
+import { getTodayAct } from './apiCors';
 import Head from '../components/head/head';
 import { ActCard } from './Card';
 
@@ -33,11 +33,11 @@ const Home = () => {
             <div className="show-today-act">
             </div>
             <div className="slide-act-page">
-                <div className="slide-card">
                     {activitiesByNow.map((act, i) => (
-                        <ActCard key={i} act={act} />
+                        <div className="slide-card">
+                            <ActCard key={i} act={act} />
+                        </div>
                     ))}
-                </div>
             </div>
         </div>
     )

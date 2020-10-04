@@ -1,0 +1,21 @@
+.del-cat, .up-cat {
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin: 2px 15px;
+    padding: 2px 0px;
+}
+
+.del-cat {
+    background-color: #f74141;
+    color: white;
+}
+
+.up-cat {
+    background-color: #4fb354;
+    color: white;
+}
+
+.up-cat a{
+    color: white;
+}

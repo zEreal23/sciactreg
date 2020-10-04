@@ -3,6 +3,7 @@ body {
     padding: 0;
     background-color: rgb(19, 18, 17);
     overflow-x: hidden;
+    font-family: 'Poppins' , 'Kanit' , serif;
 }
 
 .show-date {
@@ -31,17 +32,27 @@ body {
 
 .slide-act-page {
     position: absolute;
-    top: 100%;
+    top: 101%;
     left: 19%;
     width: 62%;
     height: 430px;
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: hidden;
     background-color: none;
-    padding-top: 80px;
+    padding-top: 65px;
+    white-space: nowrap;
+}
+
+.slide-act-page::-webkit-scrollbar {
+	background-color: transparent;
+}
+
+.slide-act-page::-webkit-scrollbar-thumb {
+	background-color: rgb(19, 18, 17);
 }
 
 .slide-card {
-    position: relative;
-    width: 55%;
+    width: 35%;
+    display: inline-block;
+    padding: 15px 5px;
 }

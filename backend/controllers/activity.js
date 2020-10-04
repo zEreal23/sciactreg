@@ -6,7 +6,6 @@ const moment = require('moment');
 
 exports.actById = (req, res, next, id) => {
     Act.findById(id)
-    .populate('paticipants', '_id u_id')
     .exec((err, act) => {
         if(err || !act) {
             return res.status(400).json({
@@ -212,14 +211,27 @@ exports.listMonthAct = (req, res) => {
 exports.listBySearch = (req, res) => {
     let order = req.body.order ? req.body.order : 'desc';
     let sortBy = req.body.sortBy ? req.body.sortBy : '_id';
+    let skip = parseInt(req.body.skip);
     let findArgs = {};
 
     // console.log(order, sortBy, limit, skip, req.body.filters);
     // console.log("findArgs", findArgs);
 
+    for (let key in req.body.filters) {
+        if (key === 'price') {
+            findArgs[key] = {
+                $gte: req.body.filters[key][0],
+                $lte: req.body.filters[key][1]
+            };
+        } else {
+            findArgs[key] = req.body.filters[key];
+        }
+    }
+
     Act.find(findArgs)
         .populate('category')
         .sort([[sortBy, order]])
+        .skip(skip)
         .exec((err, data) => {
             if (err) {
                 return res.status(400).json({
@@ -233,3 +245,21 @@ exports.listBySearch = (req, res) => {
         });
 };
 
+
+exports.listSearch = (req, res) => {
+    const query = {} 
+    if(req.query.search) {
+        query.name = { $regex: req.query.search, $options: 'i' }
+        if(req.query.category && req.query.category != 'All') {
+            query.category = req.query.category
+        }
+        Act.find(query, (err, acts) => {
+            if(err) {
+                return res.status(400).json({
+                    error: errorHandler(err)
+                })
+            }
+            res.json(acts)
+        })
+    }
+}

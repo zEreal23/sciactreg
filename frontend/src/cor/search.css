@@ -1,0 +1,17 @@
+.ipg {
+    background-color: #ffffff;
+    border: none;
+}
+
+.btn-search {
+    font-size: 16px;
+    color: rgb(19, 17, 17);
+    background-color: white;
+    border: none;
+    margin: 5px;
+}
+
+.input-search {
+    border: none;
+    outline-color: none;
+}

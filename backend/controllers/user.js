@@ -1,10 +1,10 @@
 const User = require('../models/user');
 const formidable = require('formidable');
+const { result } = require('lodash');
 
 exports.userById = (req, res, next, id) => {
     User.findById(id)
     // populate registered of user array
-    .populate('registered', '_id name')
     .exec((err, user) => {
         if(err || !user) {
             return res.status(400).json({
@@ -87,7 +87,6 @@ exports.addActivity = (req, res, next) => {
         req.body.userId, 
         {$push: {registered: req.body.registeredId}}
     )
-    .populate('registered', '_id name')
     .exec((err, result) => {
         if(err) {
             return res.status(400).json({error: err});

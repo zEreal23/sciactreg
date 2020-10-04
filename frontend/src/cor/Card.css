@@ -1,4 +1,64 @@
-.card-custom-act {
+.act-card-list {
+    -webkit-box-shadow: 0px 2px 32px -15px rgba(122,122,122,0.67);
+    -moz-box-shadow: 0px 2px 32px -15px rgba(122,122,122,0.67);
+    box-shadow: 0px 2px 32px -15px rgba(122,122,122,0.67);
+}
+
+.card-head {
+    background-color: #ffa600;
+    padding: 15px 25px;
+    margin: px 0px;
+}
+.act-ed {
+    transform: translateX(75%);
+    font-size: 10px;
+    margin: 0px 2px;
+    width: 25px;
+    cursor: pointer;
+    
+}
+
+.act-ed a {
+    color: white;
+}
+
+.act-date {
+    background-color: rgb(19, 17, 17);
+    color: white;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 2px;
+}
+
+.badge-black {
+    background-color: rgb(19, 17, 17);
+    color: white;
+    letter-spacing: 1px;text-transform: uppercase;
+    font-size: 10px;
+}
+
+.act-name {
+    font-weight: bolder;
+    margin-top: 20px;
+    letter-spacing: 2px;
+    color: rgb(19, 17, 17);
+    font-size: 18px;
+}
+
+.cardbody {
+    padding: 0px 0px 20px 20px;
+    font-size: 14px;
+}
+
+.view-act {
+    transform: translateX(135%);
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+
+/*.card-custom-act {
     border-radius: 0;
     border: rgb(19, 17, 17) 1px solid;
     height: 250px;
@@ -31,7 +91,7 @@
     margin: 0px 15px;
     font-weight: 700;
     letter-spacing: 1px;
-}
+}   
 
 .card-custom-act p {
     margin: 0px 15px;
@@ -56,7 +116,4 @@
     background-color: #ffa600;
     text-decoration: none;
 }
-
-.view-act a {
-    text-decoration: none;
-}
+*/

@@ -1,0 +1,44 @@
+.rename {
+    padding: 25px;
+}
+
+.btn-rename {
+    padding: 5px 25px;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.btn-cancle {
+    background-color: #a8a8a8;
+    color: white;
+    margin: 5px;
+    letter-spacing: 2px;
+}
+
+.btn-submit {
+    background-color: #ffa600;
+    color: white;
+    width: 150px;
+    margin: 5px;
+    letter-spacing: 2px;
+}
+
+.can-save {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-edit-cat {
+    width: 50%;
+    padding: 50px;
+}
+
+.head-edit-cat {
+    margin: 25px;
+    font-size: 20px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}

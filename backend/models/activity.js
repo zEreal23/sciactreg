@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { Object } = mongoose.Schema;
 
 const actSchema = new Schema({
         name: {
@@ -29,9 +30,13 @@ const actSchema = new Schema({
             required: true,
             maxlength: 500
         },
-        participants: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+        user: [{
+            user_id: {
+                type: String
+            },
+            u_id: {
+                type: String
+            }
         }]
     },
     { timestamps: true }

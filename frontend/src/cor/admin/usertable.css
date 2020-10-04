@@ -1,0 +1,15 @@
+body {
+    font-family: 'Poppins' , 'Kanit' , serif;
+}
+
+.user-table {
+    padding-top: 10%;
+    padding-right: 7%;
+}
+
+.last-table i {
+    text-align: center;
+    font-size:14px;
+    margin-left: 3px;
+    margin-right: 3px;
+}

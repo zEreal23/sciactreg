@@ -1,12 +1,13 @@
 import React, { useState , useEffect } from 'react';
 import AddCategory from '../admin/AddCategory';
 import { isAuthenticated } from '../auth/index';
-import { getCategories, getFilteredAct } from './apiCors';
+import { getCategories, getFilteredAct, list } from './apiCors';
 import { Link } from 'react-router-dom';
 import './activity.css';
 import Fade from 'react-reveal/Fade';
 import Checkbox from './Checkbox';
 import { ActCard } from './Card';
+import Search from './Search';
 
 
 const Activity = () => {
@@ -15,8 +16,10 @@ const Activity = () => {
     });
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState(false);
-    //const [size, setSize] = useState(0);
+    const [skip, setSkip] = useState(0);
     const [filteredResults, setfilteredResults] = useState([]);
+
+
 
     const init = () => {
         getCategories().then(data => {
@@ -27,22 +30,23 @@ const Activity = () => {
             }
         });
     };
-
+    
     const loadfilteredResults = newFilters => {
         //console.log(newFilters)
-        getFilteredAct(newFilters)
+        getFilteredAct(skip, newFilters)
         .then(data => {
             if(data.error) {
-                setError(data.error)
+                setError(data.error);
             } else {
                 setfilteredResults(data.data);
+                setSkip(0);
             }
         })
     };
 
     useEffect(() => {
         init();
-        loadfilteredResults(myFilters.filters);
+        loadfilteredResults(skip, myFilters.filters);
     }, [])
 
     const handleFilters = (filters, filterBy) => {
@@ -52,9 +56,19 @@ const Activity = () => {
 
         loadfilteredResults(myFilters.filters);
         setMyFilters(newFilters);
-    }  
+    }
 
 
+    const searchForm = () => (
+        <div className="row search-activity">
+            <input
+                type="text"
+                placeholder="Search Activities"
+                className="form-control search-act"
+            />
+            <i className="fas fa-search" />
+        </div>
+    )
 
     return (
         <div>
@@ -77,7 +91,7 @@ const Activity = () => {
                     <Checkbox
                         categories={categories}
                         handleFilters={filters =>
-                            handleFilters(filters, 'category')
+                            handleFilters(filters, "category")
                         }
                     />
                 </ul>
@@ -96,6 +110,9 @@ const Activity = () => {
             )}
 
             <div className="show-activities">
+                <div className="container mb-4">
+                    {searchForm()}
+                </div>
                 <div className="row">
                     {filteredResults.map((act, i) => (
                         <div key={i} className="col-4 mb-3">

@@ -9,7 +9,7 @@ const Profile = () => {
     const { user: { _id, fname, lname, u_id, major} } = isAuthenticated(); 
 
     return (
-        <div className="profile-page">
+        <div className="profile-page container">
             <div className="card profile-card-custom">
                 <div className="head-card"></div>
                 <div className="row name">

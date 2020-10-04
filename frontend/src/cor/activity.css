@@ -135,6 +135,30 @@
     padding: 2%;
 }
 
+.fa-search {
+    transform: translate(-25px, 10px);
+    font-size: 18px;
+}
+
+.search-act {
+    width: 340px;
+    border: none;
+    border-radius: 0;
+    border-bottom: rgb(19, 17, 17) solid 1px;
+    transition: ease-in 0.2s;
+    padding-right: 15px;
+}
+
+.search-act:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-bottom: #ffa600 solid 3px;
+}
+
+.search-activity {
+    transform: translateX(68%);
+}
 
 @media only screen and (max-width: 1000px) {
     .act-head-page {

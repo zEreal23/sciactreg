@@ -1,0 +1,33 @@
+:root {
+    --Yellow: #ffb71c;
+    --Blue: #17aeff;
+    --Grey: #737373;
+}
+
+.card {
+    margin: auto;
+    margin-top: 7%;
+    margin-bottom: 5%;
+    width: 90%;
+    font-family: 'Poppins' , 'Kanit' , serif;
+}
+
+.left {
+    padding: 3% 5%;
+}
+
+.left h3 {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+    margin: 15px;
+    margin-bottom: 10%;
+    font-weight: 700;
+}
+
+.btn-tab {
+    background-color:white;
+    color: rgb(19, 17, 17);
+}

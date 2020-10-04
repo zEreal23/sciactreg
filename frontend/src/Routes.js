@@ -8,6 +8,10 @@ import PrivateRoute from './auth/PrivateRoute';
 import Profile from './user/userProfile';
 import Activity from './cor/activity';
 import AddActivity from './admin/addActivity';
+import Admin from './cor/admin/Admin';
+import ActivityPage from './cor/ActivityPage';
+import Editcategory from './admin/editCategory';
+import EditActivity from './admin/editAcivity';
 
 const Routes = () => {
     return (
@@ -20,6 +24,10 @@ const Routes = () => {
                 <PrivateRoute path="/profile" exact component={Profile} />
                 <AdminRoute path="/activity" exact component={Activity} />
                 <AdminRoute path="/activity/create" exact component={AddActivity} />
+                <AdminRoute path="/admin" exact component={Admin} />
+                <AdminRoute path="/activity/edit/category/:categoryId" exact component={Editcategory} />
+                <Route path="/activity/:actId" exact component={ActivityPage} />
+                <AdminRoute path="/activity/edit/:actId/:userId" exact component={EditActivity} />
             </Switch>
         </BrowserRouter>
     );

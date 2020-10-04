@@ -10,6 +10,7 @@ router.get("/secret/:userId", requireSignin, isAuth, isAdmin, (req, res) => {
     });
 });
 
+
 router.get("/user/:userId", requireSignin, isAuth, read);
 router.put("/user/update/:userId", requireSignin, isAuth, update);
 router.get("/users", list);

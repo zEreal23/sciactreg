@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const { v4: uuidv4 } = require('uuid');
+const { strict } = require('assert');
 uuidv4();
+const { Object } = mongoose.Schema;
 
 const userSchema = new mongoose.Schema({
     fname: {
@@ -42,7 +44,15 @@ const userSchema = new mongoose.Schema({
     role: {
         type: Number,
         default: 0
-    }
+    },
+    activities: [{
+        Act_id: {
+            type: String
+        },
+        Act_name: {
+            type: String
+        }
+    }]
 },
 { timestamps: true }
 );

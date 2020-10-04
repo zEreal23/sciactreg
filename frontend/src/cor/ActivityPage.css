@@ -1,0 +1,33 @@
+.sing-page-act {
+    border-radius: 0;
+    border: none;
+    margin-top: 10%;
+}
+
+.act-page-name {
+    font-size: 32px;
+    letter-spacing: 5px;
+    font-weight: 900;
+    margin: 50px 0px;
+}
+
+.act-date-sing {
+    font-size: 16px;
+}
+
+.act-detail {
+    font-size: 18px;
+    margin: 15px 0px;
+}
+
+.btn-enroll {
+    padding: 1% 40%;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    color:  rgb(19, 17, 17);
+}
+
+.btn-enroll:hover {
+    color: white;
+}

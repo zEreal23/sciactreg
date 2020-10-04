@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import Layout from './layout/Layout';
-import { read, getUser } from './apiCors';
+import { read, getUser, getActivities } from './apiCors';
 import { isAuthenticated } from '../auth/index';
 import { Link } from 'react-router-dom';
-//import Participants from './participants';
+import './ActivityPage.css'
 
 const ActivityPage = props => {
 
@@ -38,8 +37,45 @@ const ActivityPage = props => {
         loadUser();
     }, [props])
 
+
     return (
-        <Layout title={activity.name} description={moment(activity.date).format("DD MMMM, YYYY")}>
+        <div className="container">
+            <div className="card sing-page-act">
+                <div className="card-head">
+                    <div className="badge badge-pill badge-black">{activity.category}</div>
+                    <h5 className="act-name card-title text-center act-page-name">{activity.name}</h5>
+                </div>
+                <p className="act-date col text-center act-date-sing">
+                    {moment(activity.date).format("DD MMMM, YYYY")}
+                </p>
+                <div className="cardbody text-center act-detail">
+                    <h6 className="card-text act-detail">{activity.description}</h6>
+                    <div className="row mb-3 card-time">
+                        <div className="col-6">
+                            <p className="card-text">Time :</p>
+                        </div>
+                        <div className="col-6">
+                            <p className="card-text">{activity.time}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Participants</p>
+                    </div>
+                    <div className="btn btn-enroll">
+                        Enter Activity
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default ActivityPage;
+
+//title={activity.name} description={moment(activity.date).format("DD MMMM, YYYY")}
+
+/**
+ * <div>
             <div className="container">
                 <div className="card">
                     <div className="row">
@@ -80,11 +116,8 @@ const ActivityPage = props => {
             )}
 
             <div className="container p-5">
-                <Participants />
+                Participants
             </div>
 
-        </Layout>
-    )
-}
-
-export default ActivityPage;
+        </div>
+ */
