@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { read, getUser, getActivities } from './apiCors';
+import { read, getUser, getActivities , enroll , unroll} from './apiCors';
 import { isAuthenticated } from '../auth/index';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './ActivityPage.css'
 
 const ActivityPage = props => {
-
-    const [user, setUser] = useState([])
     const [activity, setActivity] = useState([])
+    const [enrolled , setEnrolled] = useState(false)
+    const [enrolluser , setEnrolluser] = useState(0)
+    const [redirectToLogin, setRedirecttologin] = useState(false)
     const [error, setError] = useState(false)
 
-    const loadUser = userId => {
-        getUser(userId).then(data => {
-            if(data.error) {
-                setError(data.error);
-            } else {
-                setUser(data)
-            }
-        })
+    const checkEnroll = (enrolled) =>{
+        const userId = isAuthenticated() && isAuthenticated().user._id;
+        let match = enrolled.indexOf(userId) !== -1;
+        return match;
     }
 
     const loadSignleActivity = actId => {
@@ -27,15 +24,44 @@ const ActivityPage = props => {
                 setError(data.error);
             } else {
                 setActivity(data);
+                setEnrolluser(data.enrolluser.length)
+                setEnrolled(checkEnroll(data.enrolluser))
             }
         });
     };
 
+    const EnrollToggle = () =>{
+        if(!isAuthenticated()){
+            setRedirecttologin(true)
+            return false
+        }
+        let callApi = enrolled ? unroll : enroll
+        const userId = isAuthenticated().user._id;
+        const actId = props.match.params.actId;
+        const token = isAuthenticated().token;
+        callApi(userId, token ,actId ).then(data=>{
+            if(data.error){
+                console.log(data.error)
+            } else {
+                setEnrolled(!enrolled)
+                setEnrolluser(data.enrolluser.length)
+            }
+        })
+    }
+
     useEffect(() => {
         const actId = props.match.params.actId;
         loadSignleActivity(actId);
-        loadUser();
+        //loadUser();
     }, [props])
+
+    const redirectLogin = () => {
+        if(redirectToLogin) {
+            if(!error){
+                return <Redirect to="/signin"/>
+            }
+        }
+    }
 
 
     return (
@@ -61,11 +87,20 @@ const ActivityPage = props => {
                     <div>
                         <p>Participants</p>
                     </div>
-                    <div className="btn btn-enroll">
+                    {enrolled ? 
+                    (<div className="btn btn-enroll" onClick={EnrollToggle}>
+                        Cancle Activity
+                    </div>):(
+                        <div className="btn btn-enroll" onClick={EnrollToggle}>
                         Enter Activity
                     </div>
+                    )}
+                    
+                    <h3>Total {enrolluser} Enroll</h3>
+                    
                 </div>
             </div>
+            {redirectLogin()}
         </div>
     )
 }

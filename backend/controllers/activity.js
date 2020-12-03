@@ -19,7 +19,7 @@ exports.actById = (req, res, next, id) => {
 
 exports.read = (req, res) => {
     return res.json(req.act);
-};
+}; 
 
 exports.remove = (req, res) => {
     let act = req.act;
@@ -263,3 +263,35 @@ exports.listSearch = (req, res) => {
         })
     }
 }
+
+exports.enroll = (req, res) => {
+    Act.findByIdAndUpdate(req.body.actId, { $push: { enrolluser: req.body.userId } }, { new: true })
+    .populate('enrolluser', '_id fname')
+    .exec(
+        (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    error: err
+                });
+            } else {
+                result.hashed_password = undefined;
+                result.salt = undefined;
+                res.json(result);
+            }
+        }
+    );
+};
+
+exports.unroll = (req, res) => {
+    Act.findByIdAndUpdate(req.body.actId, { $pull: { enrolluser: req.body.userId } }, { new: true }).exec(
+        (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    error: err
+                });
+            } else {
+                res.json(result);
+            }
+        }
+    );
+};

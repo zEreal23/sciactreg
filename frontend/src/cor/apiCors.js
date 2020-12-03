@@ -108,3 +108,35 @@ export const list = params => {
         })
         .catch(err => console.log(err));
 };
+
+export const enroll = (userId, token, actId) => {
+    return fetch(`${API}/activity/enroll`, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ userId, actId })
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const unroll = (userId, token, actId) => {
+    return fetch(`${API}/activity/unroll`, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ userId, actId })
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};

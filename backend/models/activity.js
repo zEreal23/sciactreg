@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { Object } = mongoose.Schema;
+const {ObjectId} = mongoose.Schema
 
 const actSchema = new Schema({
         name: {
@@ -20,24 +20,20 @@ const actSchema = new Schema({
             required: true
         },
         category: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: ObjectId,
             ref: "Category",
             required: true
         },
+        enrolluser: [{ 
+            type: ObjectId, 
+            ref: "User" 
+        }],
         description: {
             type: String,
             trim: true,
             required: true,
             maxlength: 500
         },
-        user: [{
-            user_id: {
-                type: String
-            },
-            u_id: {
-                type: String
-            }
-        }]
     },
     { timestamps: true }
 );
