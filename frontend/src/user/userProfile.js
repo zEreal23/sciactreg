@@ -26,9 +26,12 @@ const Profile = () => {
                     <Button title="Edit profile" />
                 </div>
 
+                
+
                 <div className="act-list">
-                    <p>- [ Activities ] -</p>
+                  
                     <ul>
+                        กิจกรรมที่เข้าร่วม
                         <li>act 1</li>
                         <li>act 1</li>
                         <li>act 1</li>

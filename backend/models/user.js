@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
+    enrolling: [{ 
+        type: ObjectId, 
+        ref: "Act" 
+    }],
     status: {
         type: String,
         trim: true,

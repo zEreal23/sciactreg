@@ -1,6 +1,7 @@
 import { API } from '../config';
 import queryString from 'query-string';
 
+
 export const getActivities = (sortBy) => {
     return fetch(`${API}/Activities?sortBy=${sortBy}&order=desc&limit=12`, {
         method: "GET"
@@ -102,6 +103,21 @@ export const list = params => {
     console.log('query', query)
     return fetch(`${API}/activities/search?${query}`, {
         method: "GET"
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const readuser = (userId, token) => {
+    return fetch(`${API}/user/${userId}`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        }
     })
         .then(response => {
             return response.json();

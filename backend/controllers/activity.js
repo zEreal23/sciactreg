@@ -1,4 +1,5 @@
 const Act = require('../models/activity');
+const User = require('../models/user');
 const formidable = require('formidable');
 const _ = require('lodash');
 const { errorHandler } = require('../helpers/dbErrorHandler');
@@ -6,31 +7,32 @@ const moment = require('moment');
 
 exports.actById = (req, res, next, id) => {
     Act.findById(id)
-    .exec((err, act) => {
-        if(err || !act) {
-            return res.status(400).json({
-                error: "Activity not found"
-            });
-        }
-        req.act = act;
-        next();
-    });
+        .populate('enrolluser', '_id fname lname')
+        .exec((err, act) => {
+            if (err || !act) {
+                return res.status(400).json({
+                    error: "Activity not found"
+                });
+            }
+            req.act = act;
+            next();
+        });
 };
 
 exports.read = (req, res) => {
     return res.json(req.act);
-}; 
+};
 
 exports.remove = (req, res) => {
     let act = req.act;
     act.remove((err, deleteAct) => {
-        if(err) {
+        if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
             });
         }
         res.json({
-            "message": "Activity delete successful" 
+            "message": "Activity delete successful"
         });
     });
 };
@@ -38,9 +40,9 @@ exports.remove = (req, res) => {
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
-    form.parse(req, (err, fields ) => {
-        const { name, description, date, time, hour, category} = fields;
-        if( !name || !description || !date || !category || !time || !hour ) {
+    form.parse(req, (err, fields) => {
+        const { name, description, date, time, hour, category } = fields;
+        if (!name || !description || !date || !category || !time || !hour) {
             return res.status(400).json({
                 error: "All fields are require"
             });
@@ -49,13 +51,13 @@ exports.create = (req, res) => {
         let activity = new Act(fields);
 
         activity.save((err, result) => {
-            if(err) {
+            if (err) {
                 return res.status(400).json({
                     error: errorHandler(err)
                 });
             }
             res.json(result)
-          });
+        });
     });
 };
 
@@ -65,9 +67,9 @@ exports.update = (req, res) => {
     form.parse(req, (err, fields) => {
 
         //check for all fields
-        const { name, description, date, time, hour, category} = fields;
+        const { name, description, date, time, hour, category } = fields;
 
-        if(!name || !description || !date || !category || !time || !hour ) {
+        if (!name || !description || !date || !category || !time || !hour) {
             return res.status(400).json({
                 error: "All fields are require"
             });
@@ -78,12 +80,12 @@ exports.update = (req, res) => {
         act = _.extend(act, fields);
 
         act.save((err, result) => {
-          if(err) {
-              return res.status(400).json({
-                  error: errorHandler(err)
-              });
-          }
-          res.json(result)
+            if (err) {
+                return res.status(400).json({
+                    error: errorHandler(err)
+                });
+            }
+            res.json(result)
         });
     });
 };
@@ -101,10 +103,10 @@ exports.list = (req, res) => {
 
     Act.find()
         .populate("category")
-        .sort([[ sortBy, order ]])
+        .sort([[sortBy, order]])
         .limit(limit)
         .exec((err, acts) => {
-            if(err) {
+            if (err) {
                 return res.status(400).json({
                     error: "Activity not found"
                 });
@@ -121,23 +123,23 @@ exports.list = (req, res) => {
 exports.listRelated = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
-    Act.find({ _id: {$ne: req.act}, category: req.act.category })
-    .limit(limit)
-    .populate("category", "_id: name")
-    .exec((err, acts) => {
-        if(err) {
-            return res.status(400).json({
-                error: "Activity not found"
-            });
-        }
-        res.json(acts);
-    });
+    Act.find({ _id: { $ne: req.act }, category: req.act.category })
+        .limit(limit)
+        .populate("category", "_id: name")
+        .exec((err, acts) => {
+            if (err) {
+                return res.status(400).json({
+                    error: "Activity not found"
+                });
+            }
+            res.json(acts);
+        });
 
 };
 
 exports.listCategories = (req, res) => {
     Act.distinct("category", {}, (err, categories) => {
-        if(err) {
+        if (err) {
             return res.status(400).json({
                 error: "Categories not found"
             });
@@ -150,62 +152,62 @@ exports.listCategories = (req, res) => {
  * get today's activities 
  */
 
- exports.listTodayAct = (req, res) => {
-     
+exports.listTodayAct = (req, res) => {
+
     var today = moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]');
-     Act.find({ 
-            "date": new Date(today)
-         })
+    Act.find({
+        "date": new Date(today)
+    })
         .exec((err, acts) => {
-            if(err) {
+            if (err) {
                 return res.status(400).json({
                     error: "Activity not found"
                 });
             }
             res.json(acts);
         });
- }
+}
 
- /**
- * get month's activities 
- */
+/**
+* get month's activities 
+*/
 
 exports.listMonthAct = (req, res) => {
     var month = moment().format('M');
     Act.find({
         "date": {
-            $gte : moment(`${month}`, 'M').format('M')
+            $gte: moment(`${month}`, 'M').format('M')
         }
     })
-    .exec((err, acts) => {
-        if(err) {
-            return res.status(400).json({
-                error: "Activity not found"
-            });
-        }
-        res.json(acts);
-    });
- }
+        .exec((err, acts) => {
+            if (err) {
+                return res.status(400).json({
+                    error: "Activity not found"
+                });
+            }
+            res.json(acts);
+        });
+}
 
- // user rigister
+// user rigister
 
- exports.addUsers = (req, res, next) => {
+exports.addUsers = (req, res, next) => {
     User.findByIdAndUpdate(
-        req.body.registeredId, 
-        {$push: {participants: req.body.userId}}, 
+        req.body.registeredId,
+        { $push: { participants: req.body.userId } },
         { new: true }
     )
-    .populate('partacipants', '_id u_id')
-    .exec((err, result) => {
-        if(err) {
-            return res.status(400).json({
-                error: err
-            })
-        }
-        result.hashed_password = undefined
-        result.salt = undefined
-        res.json(result)
-    })
+        .populate('partacipants', '_id u_id')
+        .exec((err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    error: err
+                })
+            }
+            result.hashed_password = undefined
+            result.salt = undefined
+            res.json(result)
+        })
 };
 
 exports.listBySearch = (req, res) => {
@@ -247,14 +249,14 @@ exports.listBySearch = (req, res) => {
 
 
 exports.listSearch = (req, res) => {
-    const query = {} 
-    if(req.query.search) {
+    const query = {}
+    if (req.query.search) {
         query.name = { $regex: req.query.search, $options: 'i' }
-        if(req.query.category && req.query.category != 'All') {
+        if (req.query.category && req.query.category != 'All') {
             query.category = req.query.category
         }
         Act.find(query, (err, acts) => {
-            if(err) {
+            if (err) {
                 return res.status(400).json({
                     error: errorHandler(err)
                 })
@@ -264,34 +266,39 @@ exports.listSearch = (req, res) => {
     }
 }
 
+
+
 exports.enroll = (req, res) => {
     Act.findByIdAndUpdate(req.body.actId, { $push: { enrolluser: req.body.userId } }, { new: true })
-    .populate('enrolluser', '_id fname')
-    .exec(
-        (err, result) => {
+        .populate('enrolluser', '_id fname lname')
+        .exec((err, result) => {
             if (err) {
                 return res.status(400).json({
                     error: err
                 });
             } else {
-                result.hashed_password = undefined;
-                result.salt = undefined;
                 res.json(result);
+                console.log("ลงทะเบียน", result.enrolluser)
             }
         }
-    );
+        );
 };
 
+
 exports.unroll = (req, res) => {
-    Act.findByIdAndUpdate(req.body.actId, { $pull: { enrolluser: req.body.userId } }, { new: true }).exec(
-        (err, result) => {
-            if (err) {
-                return res.status(400).json({
-                    error: err
-                });
-            } else {
-                res.json(result);
+    Act.findByIdAndUpdate(req.body.actId, { $pull: { enrolluser: req.body.userId } }, { new: true })
+        .populate('enrolling', '_id name lname')
+        .populate('enrolluser', '_id name lname')
+        .exec(
+            (err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: err
+                    });
+                } else {
+                    res.json(result);
+                    console.log("ยกเลิกลงทะเบียน", result.enrolluser)
+                }
             }
-        }
-    );
+        );
 };

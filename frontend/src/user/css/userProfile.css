@@ -81,6 +81,7 @@ div .name h1 {
 .act-list ul li {
     list-style-type: none;
     margin: 3%;
+    margin-top: 10;
     border: 1px solid black;
     text-align: center;
     transform: translate(-2.8%, 0%);

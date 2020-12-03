@@ -1,37 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { read, getUser, getActivities , enroll , unroll} from './apiCors';
+import { read, getUser, getActivities, enroll, unroll } from './apiCors';
 import { isAuthenticated } from '../auth/index';
 import { Link, Redirect } from 'react-router-dom';
 import './ActivityPage.css'
 
 const ActivityPage = props => {
+
+    const [enrolled, setEnrolled] = useState(false)
+    const [enrolluser, setEnrolluser] = useState(0)
+
     const [activity, setActivity] = useState([])
-    const [enrolled , setEnrolled] = useState(false)
-    const [enrolluser , setEnrolluser] = useState(0)
+    const [name, setFname] = useState([])
     const [redirectToLogin, setRedirecttologin] = useState(false)
     const [error, setError] = useState(false)
 
-    const checkEnroll = (enrolled) =>{
+    const checkEnroll = (enrolluser) => {
         const userId = isAuthenticated() && isAuthenticated().user._id;
-        let match = enrolled.indexOf(userId) !== -1;
+        let match = enrolluser.indexOf(userId) !== 1;
         return match;
     }
 
-    const loadSignleActivity = actId => {
+    useEffect(() => {
+        const actId = props.match.params.actId;
         read(actId).then(data => {
-            if(data.error) {
+            if (data.error) {
                 setError(data.error);
             } else {
-                setActivity(data);
+                setActivity(data)
                 setEnrolluser(data.enrolluser.length)
                 setEnrolled(checkEnroll(data.enrolluser))
+                setFname(data.enrolluser)
+                console.log("เข้ามาครั้งแรก",enrolled)
             }
         });
-    };
+    }, [])
 
-    const EnrollToggle = () =>{
-        if(!isAuthenticated()){
+    const EnrollToggle = () => {
+        if (!isAuthenticated()) {
             setRedirecttologin(true)
             return false
         }
@@ -39,26 +45,22 @@ const ActivityPage = props => {
         const userId = isAuthenticated().user._id;
         const actId = props.match.params.actId;
         const token = isAuthenticated().token;
-        callApi(userId, token ,actId ).then(data=>{
-            if(data.error){
+        callApi(userId, token, actId).then(data => {
+            if (data.error) {
                 console.log(data.error)
             } else {
+                console.log("กดปุ่ม",enrolled)
                 setEnrolled(!enrolled)
                 setEnrolluser(data.enrolluser.length)
+                setFname(data.enrolluser)
             }
         })
     }
 
-    useEffect(() => {
-        const actId = props.match.params.actId;
-        loadSignleActivity(actId);
-        //loadUser();
-    }, [props])
-
     const redirectLogin = () => {
-        if(redirectToLogin) {
-            if(!error){
-                return <Redirect to="/signin"/>
+        if (redirectToLogin) {
+            if (!error) {
+                return <Redirect to="/signin" />
             }
         }
     }
@@ -87,17 +89,19 @@ const ActivityPage = props => {
                     <div>
                         <p>Participants</p>
                     </div>
-                    {enrolled ? 
-                    (<div className="btn btn-enroll" onClick={EnrollToggle}>
-                        Cancle Activity
-                    </div>):(
-                        <div className="btn btn-enroll" onClick={EnrollToggle}>
-                        Enter Activity
+
+                    <div className="btn btn-enroll" onClick={EnrollToggle}>
+                        {enrolled ? (<p>Cancle</p>) : (<p>Enter</p>)}
                     </div>
-                    )}
-                    
+
                     <h3>Total {enrolluser} Enroll</h3>
-                    
+                    {name.map((person, i) => (
+                        <div key={i}>
+                            <p>{person.fname} {person.lname}</p>
+
+                        </div>
+                    ))}
+
                 </div>
             </div>
             {redirectLogin()}
