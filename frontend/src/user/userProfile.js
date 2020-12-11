@@ -23,40 +23,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="edit-profile">
-                    <Button title="Edit profile" />
-                </div>
-
-                
-
-                <div className="act-list">
-                  
-                    <ul>
-                        กิจกรรมที่เข้าร่วม
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                        <li>act 1</li>
-                    </ul>
+                    <Link to={`/profile/edit/${_id}`}>Edit Profile</Link>
                 </div>
             </div>
         </div>

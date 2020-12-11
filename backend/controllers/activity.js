@@ -61,7 +61,19 @@ exports.create = (req, res) => {
     });
 };
 
-exports.update = (req, res) => {
+exports.update = (req, res ) => {
+    const activity = req.Act;
+    activity.name = req.body.name
+    activity.save((err,data)=>{
+        if(err){
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+        res.json({data})
+    })
+}
+/*exports.update = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
     form.parse(req, (err, fields) => {
@@ -88,7 +100,7 @@ exports.update = (req, res) => {
             res.json(result)
         });
     });
-};
+};*/
 
 /**
  * New

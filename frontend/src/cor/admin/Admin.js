@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import './admin.css';
 import Signup from '../../user/Signup';
 import Usertable from './Usertable';
@@ -22,6 +22,9 @@ const Admin = () => {
             </div>
         </div>
     )
+    useEffect(() => {
+        tab1()
+    }, [tab1])
 
     const tab2 = () => (
         <div id="2" className="tab-2">
@@ -41,6 +44,7 @@ const Admin = () => {
         </div>
     )
 
+    
     const [ activeTab, setActiveTab ] = useState(tab1);
 
     return (

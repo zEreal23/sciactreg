@@ -36,13 +36,29 @@ exports.read = (req, res) => {
 };*/
 
 exports.update = (req, res) => {
-    const { password } = req.body;
+    const { fname, lname ,password } = req.body;
 
     User.findOne({ _id: req.profile._id }, (err, user) => {
         if(err || !user ) {
             return res.status(400).json({
                 error: 'User not found'
             });
+        }
+
+        if (!fname) {
+            return res.status(400).json({
+                error: 'Name is required'
+            });
+        } else {
+            user.fname = fname;
+        }
+
+        if (!lname) {
+            return res.status(400).json({
+                error: 'Name is required'
+            });
+        } else {
+            user.lname = lname;
         }
         
         if(password) {
@@ -52,6 +68,7 @@ exports.update = (req, res) => {
                 });
             } else {
                 user.password = password
+                console.log(user.password)
             }
         }
 
@@ -65,6 +82,7 @@ exports.update = (req, res) => {
             updatedUser.hashed_password = undefined
             updatedUser.salt = undefined
             res.json(updatedUser)
+            console.log(updatedUser)
         })
     })
 }
