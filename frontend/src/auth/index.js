@@ -1,12 +1,13 @@
 import { API } from '../config';
 
-export const signup = (user) => {
+export const signup = (userId , token, user) => {
     // console.log(fname, lname, u_id, email, password, major);
-    return fetch(`${API}/signup`, {
+    return fetch(`${API}/signup/${userId}`, {
         method: "POST",
         headers: {
             Accept: "application/json",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(user)
     })

@@ -1,6 +1,4 @@
 const User = require('../models/user');
-const formidable = require('formidable');
-const { result } = require('lodash');
 
 exports.userById = (req, res, next, id) => {
     User.findById(id)
@@ -86,6 +84,20 @@ exports.update = (req, res) => {
         })
     })
 }
+
+exports.remove = (req, res) => {
+    const user = req.profile;
+    user.remove((err, data) => {
+        if(err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json({
+            message: "User deleted"
+        });
+    });
+};
 
 exports.list = (req, res) => {
     User.find().exec((err, data) => {

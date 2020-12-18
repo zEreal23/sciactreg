@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { signup } from '../auth/index';
+import { signup ,isAuthenticated } from '../auth/index';
 
 const Signup = () => {
     const [values, setValues] = useState({
@@ -30,10 +30,11 @@ const Signup = () => {
             New account is created. This user can Signin.
         </div>
     );
+    const {user, token} = isAuthenticated();
 
     const clickSubmit = event => {
         event.preventDefault();
-        signup({ fname, lname, email, password, status, major, u_id })
+        signup(user._id, token,{ fname, lname, email, password, status, major, u_id })
         .then(data => {
             if (data.error) {
                 setValues({ ...values, error: data.error, success: false });
@@ -55,7 +56,6 @@ const Signup = () => {
 
     const signUpForm = () => (
         <form>
-
             <div className="form-group">
                 <label className="text-muted">User ID</label>
                 <input 

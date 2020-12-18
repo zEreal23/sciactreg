@@ -13,6 +13,8 @@ import ActivityPage from './cor/ActivityPage';
 import Editcategory from './admin/editCategory';
 import EditActivity from './admin/editAcivity';
 import EditProfile from './user/editProfile';
+import EditAdminProfile from './user/editAdminProfile'
+import ProfileAdmin from './user/profile'
 
 const Routes = () => {
     return (
@@ -26,7 +28,9 @@ const Routes = () => {
                 <PrivateRoute path="/profile/edit/:userId" exact component={EditProfile} />
                 <AdminRoute path="/activity" exact component={Activity} />
                 <AdminRoute path="/activity/create" exact component={AddActivity} />
-                <AdminRoute path="/admin" exact component={Admin} />
+                <PrivateRoute path="/admin" exact component={Admin} />
+                <AdminRoute path="/profile/:userId" exact component={ProfileAdmin} />
+                <AdminRoute path="/profile/editByAdmin/:userId" exact component={EditAdminProfile} />
                 <AdminRoute path="/activity/edit/category/:categoryId" exact component={Editcategory} />
                 <Route path="/activity/:actId" exact component={ActivityPage} />
                 <AdminRoute path="/activity/edit/:actId/:userId" exact component={EditActivity} />

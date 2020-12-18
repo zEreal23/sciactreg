@@ -125,6 +125,21 @@ export const readuser = (userId, token) => {
         .catch(err => console.log(err));
 };
 
+export const deleteUser = ( userId, token) => {
+    return fetch(`${API}/user/${userId}`, {
+        method: 'DELETE',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
 export const enroll = (userId, token, actId) => {
     return fetch(`${API}/activity/enroll`, {
         method: "PUT",
