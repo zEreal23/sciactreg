@@ -4,6 +4,8 @@ const formidable = require('formidable');
 const _ = require('lodash');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 const moment = require('moment');
+const user = require('../models/user');
+const { result } = require('lodash');
 
 exports.actById = (req, res, next, id) => {
     Act.findById(id)
@@ -61,16 +63,16 @@ exports.create = (req, res) => {
     });
 };
 
-exports.update = (req, res ) => {
+exports.update = (req, res) => {
     const activity = req.Act;
     activity.name = req.body.name
-    activity.save((err,data)=>{
-        if(err){
+    activity.save((err, data) => {
+        if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
             })
         }
-        res.json({data})
+        res.json({ data })
     })
 }
 /*exports.update = (req, res) => {
@@ -278,7 +280,16 @@ exports.listSearch = (req, res) => {
     }
 }
 
-
+exports.userenroll = (req, res, next) => {
+    User.findByIdAndUpdate(req.body.userId, { $push: { enrolling: req.body.actId } }, { new: true })
+        .populate('enrolling', '_id name')
+        .exec((err, result) => {
+            if (err) {
+                return res.status(400).json({ error: err });
+            }
+            next();
+        })
+};
 
 exports.enroll = (req, res) => {
     Act.findByIdAndUpdate(req.body.actId, { $push: { enrolluser: req.body.userId } }, { new: true })
@@ -292,15 +303,22 @@ exports.enroll = (req, res) => {
                 res.json(result);
                 console.log("ลงทะเบียน", result.enrolluser)
             }
+        });
+};
+
+exports.userunroll = (req, res, next) => {
+    User.findByIdAndUpdate(req.body.userId, { $pull: { enrolling: req.body.actId } }, (err, result) => {
+        if (err) {
+            return res.status(400).json({ error: err });
         }
-        );
+        next();
+    });
 };
 
 
 exports.unroll = (req, res) => {
     Act.findByIdAndUpdate(req.body.actId, { $pull: { enrolluser: req.body.userId } }, { new: true })
-        .populate('enrolling', '_id name lname')
-        .populate('enrolluser', '_id name lname')
+        .populate('enrolluser', '_id fname lname')
         .exec(
             (err, result) => {
                 if (err) {
