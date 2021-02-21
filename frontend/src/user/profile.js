@@ -52,6 +52,7 @@ const Profile = ({ match }) => {
                         <h1 className="col">{major}</h1>
                     </div>
                 </div>
+               
                 <div className="edit-profile">
                     <Link to={`/profile/editByAdmin/${match.params.userId}`}>Edit Profile</Link>
                 </div>
@@ -62,7 +63,7 @@ const Profile = ({ match }) => {
     return (
         <div className="profile-page container">
             <div className="card profile-card-custom">
-                Update Profile
+        
                 {profile(fname, lname, u_id, major)}
 
             </div>

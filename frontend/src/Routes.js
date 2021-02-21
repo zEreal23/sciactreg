@@ -24,7 +24,7 @@ const Routes = () => {
                 <Route path="/" exact component={Home} />
                 <Route path="/signin" exact component={Signin} />
                 <Route path="/activity" exact component={Activity} />
-                <PrivateRoute path="/profile" exact component={Profile} />
+                <PrivateRoute path="/profile/:userId" exact component={Profile} />
                 <PrivateRoute path="/profile/edit/:userId" exact component={EditProfile} />
                 <AdminRoute path="/activity" exact component={Activity} />
                 <AdminRoute path="/activity/create" exact component={AddActivity} />

@@ -54,7 +54,7 @@ const EditProfile = ({ match }) => {
 
     const redirectUser = success => {
         if (success) {
-            return <Redirect to="/profile" />;
+            return <Redirect to="/" />;
         }
     };
 

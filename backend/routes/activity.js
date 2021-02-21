@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { create, actById, read, remove, update, list, listRelated, listCategories, listTodayAct, listMonthAct, addUsers, listBySearch, listSearch, enrolling , unrolling  , enroll, unroll } = require('../controllers/activity');
+const { create, actById, read, remove, update, list, listRelated, listCategories, listTodayAct, listMonthAct, addUsers, listBySearch, listSearch, userenroll, userunroll, enroll, unroll } = require('../controllers/activity');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
 
@@ -24,8 +24,8 @@ router.get("/activities", list);
 router.get("/activities/related/:actId", listRelated);
 router.get("/activities/categories", listCategories);
 
-router.put('/activity/enroll', requireSignin,enroll);
-router.put('/activity/unroll', requireSignin ,unroll);
+router.put('/activity/enroll', requireSignin,  enroll);
+router.put('/activity/unroll', requireSignin, userunroll ,unroll);
 
 router.param("userId", userById);
 router.param("actId", actById);
