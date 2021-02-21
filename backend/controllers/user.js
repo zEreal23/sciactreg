@@ -33,56 +33,17 @@ exports.read = (req, res) => {
     });
 };*/
 
-exports.update = (req, res) => {
+exports.update = async(req, res) => {
     const { fname, lname ,password } = req.body;
-
-    User.findOne({ _id: req.profile._id }, (err, user) => {
-        if(err || !user ) {
-            return res.status(400).json({
-                error: 'User not found'
-            });
-        }
-
-        if (!fname) {
-            return res.status(400).json({
-                error: 'Name is required'
-            });
-        } else {
-            user.fname = fname;
-        }
-
-        if (!lname) {
-            return res.status(400).json({
-                error: 'Name is required'
-            });
-        } else {
-            user.lname = lname;
-        }
-        
-        if(password) {
-            if(password.lenght < 6) {
-                return res.status(400).json({
-                    error: 'Password should be min 6 characters long'
-                });
-            } else {
-                user.password = password
-                console.log(user.password)
-            }
-        }
-
-        user.save((err, updatedUser) => {
-            if(err) {
-                console.log('USER UPDATE ERROR', err)
-                return res.status(400).json({
-                    error: 'User update failed'
-                })
-            }
-            updatedUser.hashed_password = undefined
-            updatedUser.salt = undefined
-            res.json(updatedUser)
-            console.log(updatedUser)
-        })
-    })
+    if(!fname||!lname) {
+        return res.status(400).json({
+            error: 'Bad Request'
+        });
+    }
+    
+   const data = await User.findOneAndUpdate({ _id: req.profile._id }, {$set:{fname:fname , lname:lname}})
+    console.log(data)
+    return res.status(200).json(data)
 }
 
 exports.remove = (req, res) => {

@@ -61,16 +61,36 @@ exports.requireSignin = expressJwt({
   });
 
 exports.isAuth = (req, res, next) => {
-   let sameUser = req.profile && req.auth && req.profile._id == req.auth._id;
-   let adminUser = req.profile && req.auth && req.auth.role === 1;
-   
-   const authorizaed = sameUser || adminUser
+    const isRequest = req.profile && req.auth
+    if(!isRequest){
+        return res.status(400).json({
+            error: "Bad Request"
+        });
+    }
+    console.log(typeof req.profile._id)
+    console.log(typeof req.auth._id)
+   const sameUser =  String(req.profile._id) === String(req.auth._id);
+   const adminUser = req.auth.role === 1;
 
-    if(!authorizaed) { 
+   if(!adminUser) {
+       console.log(sameUser)
+       if(!sameUser){
+            return res.status(403).json({
+                error: "Access denied"
+            });
+       }
+   }
+    /*if(!sameUser) { 
+        return res.status(401).json({
+            error: "User is not authorized"
+        });
+    }
+    if(!adminUser)
+    { 
         return res.status(403).json({
             error: "Access denied"
         });
-    }
+    }*/
     next();
 };
 

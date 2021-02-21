@@ -43,14 +43,12 @@ const EditAdminProfile = ({ match }) => {
             if (data.error) {
                 console.log(data.error);  
             } else {
-                updateUser(data, () => {
                     setValues({
                         ...values,
                         fname: data.fname,
                         lname: data.lname,
                         success: true
                     });
-                });
             }
         });
     };

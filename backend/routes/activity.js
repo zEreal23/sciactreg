@@ -25,7 +25,7 @@ router.get("/activities/related/:actId", listRelated);
 router.get("/activities/categories", listCategories);
 
 router.put('/activity/enroll', requireSignin,  enroll);
-router.put('/activity/unroll', requireSignin, userunroll ,unroll);
+router.put('/activity/unroll', requireSignin ,unroll);
 
 router.param("userId", userById);
 router.param("actId", actById);

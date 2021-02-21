@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { read, getUser, getActivities, enroll, unroll } from './apiCors';
+import { readAct, getUser, getActivities, enroll, unroll } from './apiCors';
 import { isAuthenticated } from '../auth/index';
 import { Link, Redirect } from 'react-router-dom';
+
+import Loading from "../components/Loading";
+
+
 import './ActivityPage.css'
+
 
 const ActivityPage = props => {
 
-    const [enrolled, setEnrolled] = useState()
+    const [enrolled, setEnrolled] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [enrolluser, setEnrolluser] = useState(0)
 
     const [activity, setActivity] = useState([])
@@ -17,42 +23,63 @@ const ActivityPage = props => {
 
     const checkEnroll = (enrolluser) => {
         const userId = isAuthenticated().user._id;
-        let match = enrolluser.indexOf(userId) !== 1;
+        let match = enrolluser.filter(value => value._id == userId).length > 0;
         return match;
+    }
+
+    const getAct = (actId) =>{
+        return new Promise( async (resolve, reject) => {
+            readAct(actId).then(data => {
+                if (data.error){ 
+                    return reject(data.error)
+                }
+
+                return resolve(data)
+            });
+        })
+        
+    }
+
+    const fetchActivityById  = async (actId) => {
+        try {
+            const data = await getAct(actId)
+            setActivity(data)
+            setEnrolluser(data.enrolluser.length)
+            setEnrolled(checkEnroll(data.enrolluser))
+            setFname(data.enrolluser)
+        } catch (error) {
+            setError(error)
+        }
+    }
+
+    const onInitActivity = async (actId) => {
+        setLoading(true)
+        await fetchActivityById(actId);
+        setLoading(false)
     }
 
     useEffect(() => {
         const actId = props.match.params.actId;
-        read(actId).then(data => {
-            if (data.error) {
-                setError(data.error);
-            } else {
-                setActivity(data)
-                setEnrolluser(data.enrolluser.length)
-                setEnrolled(checkEnroll(data.enrolluser))
-                setFname(data.enrolluser)
-                console.log("สถานะ",enrolled)
-            }
-        });
+        onInitActivity(actId)
     }, [])
 
     const EnrollToggle = () => {
+        setLoading(true)
         if (!isAuthenticated()) {
             setRedirecttologin(true)
             return false
         }
-        let callApi = enrolled ? unroll : enroll
+        const callApi = enrolled ? unroll : enroll
         const userId = isAuthenticated().user._id;
         const actId = props.match.params.actId;
         const token = isAuthenticated().token;
-        callApi(userId, token, actId).then(data => {
+        callApi(userId, token, actId).then(async (data) => {
             if (data.error) {
                 console.log(data.error)
+                setLoading(false)
             } else {
-                console.log("กดปุ่ม",enrolled)
-                setEnrolled(!enrolled)
-                //setEnrolluser(data.enrolluser.length)
-                setFname(data.enrolluser)
+                await fetchActivityById(actId)
+                setLoading(false)
             }
         })
     }
@@ -65,9 +92,9 @@ const ActivityPage = props => {
         }
     }
 
-    console.log("ชื่อ",name)
     return (
         <div className="container">
+            <Loading loading={loading} />
             <div className="card sing-page-act">
                 <div className="card-head">
                     <div className="badge badge-pill badge-black">{activity.category}</div>
@@ -91,14 +118,15 @@ const ActivityPage = props => {
                     </div>
 
                     <div className="btn btn-enroll" onClick={EnrollToggle}>
-                        {enrolled ? (<p>Cancle</p>) : (<p>Enter</p>)}
+                        <p>
+                            {enrolled ? "Cancle" : "Enter"}
+                        </p>
                     </div>
 
                     <h3>Total {enrolluser} Enroll</h3>
                     {name.map((person, i) => (
                         <div key={i}>
                             <p>{person.fname} {person.lname}</p>
-
                         </div>
                     ))}
 

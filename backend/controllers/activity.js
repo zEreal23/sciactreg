@@ -282,19 +282,55 @@ exports.listSearch = (req, res) => {
 
 exports.userenroll = (req, res, next) => {
     User.findByIdAndUpdate(req.body.userId, { $push: { enrolling: req.body.actId } }, { new: true })
-        .populate('enrolling', '_id name')
-        .exec((err, result) => {
-            if (err) {
-                return res.status(400).json({ error: err });
-            }
-            next();
-        })
+    .populate('enrolling', ' name')
+    .exec((err, result) => {
+        console.log('resgister',result)
+        if (err) {
+            return res.status(400).json({
+                error: err
+            });
+        } else {
+            res.json(result);
+            console.log("ลงทะเบียน", result.enrolling)
+        }
+    });
 };
 
-exports.enroll = (req, res) => {
-    Act.findByIdAndUpdate(req.body.actId, { $push: { enrolluser: req.body.userId } }, { new: true })
-        .populate('enrolluser', '_id fname lname')
+exports.enroll = async (req, res) => {
+    try {
+        if(!req.body.actId){
+            return res.status(400).json({
+                error: 'ActId is Null'
+            })
+        }
+        if(!req.body.userId){
+            return res.status(400).json({
+                error: 'UserId is Null'
+            })
+        }
+        const findUser = await User.findOne({_id: req.body.userId})
+        const checkActInUser = findUser.enrolling.filter(value => value==req.body.actId) 
+        if(checkActInUser.length != 0){
+            return res.status(400).json({
+                error: "User has already Act"
+            });
+        }
+        const resultAct = await Act.findByIdAndUpdate(req.body.actId, { $push: { enrolluser: req.body.userId }}, { new: true })
+        .populate('enrolluser', ' fname lname')
+        const resultUser = await  User.findByIdAndUpdate(req.body.userId, { $push: { enrolling: req.body.actId } }, { new: true })
+        .populate('enrolling', ' name')
+        console.log('Act',resultAct,'User',resultUser)
+        return res.status(200).json({...resultUser,enrolluser: resultUser.enrolling})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            error: error
+        });
+    }
+    /*Act.findByIdAndUpdate(req.body.actId, { $push: { enrolluser: req.body.userId }}, { new: true })
+        .populate('enrolluser', ' fname lname')
         .exec((err, result) => {
+            console.log('resgister',result)
             if (err) {
                 return res.status(400).json({
                     error: err
@@ -303,7 +339,7 @@ exports.enroll = (req, res) => {
                 res.json(result);
                 console.log("ลงทะเบียน", result.enrolluser)
             }
-        });
+        });*/
 };
 
 exports.userunroll = (req, res, next) => {
@@ -316,19 +352,27 @@ exports.userunroll = (req, res, next) => {
 };
 
 
-exports.unroll = (req, res) => {
-    Act.findByIdAndUpdate(req.body.actId, { $pull: { enrolluser: req.body.userId } }, { new: true })
-        .populate('enrolluser', '_id fname lname')
-        .exec(
-            (err, result) => {
-                if (err) {
-                    return res.status(400).json({
-                        error: err
-                    });
-                } else {
-                    res.json(result);
-                    console.log("ยกเลิกลงทะเบียน", result.enrolluser)
-                }
-            }
-        );
+exports.unroll = async(req, res) => {
+    try {
+        if(!req.body.actId){
+            return res.status(400).json({
+                error: 'ActId is Null'
+            })
+        }
+        if(!req.body.userId){
+            return res.status(400).json({
+                error: 'UserId is Null'
+            })
+        }
+        
+        const resultAct = await Act.findByIdAndUpdate(req.body.actId, { $pull: { enrolluser: req.body.userId }}, { new: true })
+        .populate('enrolluser', ' fname lname')
+        const resultUser = await  User.findByIdAndUpdate(req.body.userId, { $pull: { enrolling: req.body.actId } }, { new: true })
+        .populate('enrolling', ' name')
+        return res.status(200).json({...resultUser,enrolluser: resultUser.enrolling})
+    } catch (error) {
+        return res.status(500).json({
+            error: error
+        });
+    }
 };

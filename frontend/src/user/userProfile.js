@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { isAuthenticated } from '../auth'
 import { Link } from 'react-router-dom'
 import { read } from './apiUser'
+import { readAct } from '../cor/apiCors'
 
 const Profile = ({ match }) => {
     const [values, setValues] = useState({
@@ -14,13 +15,14 @@ const Profile = ({ match }) => {
         error: false,
         success: false
     })
-    const [act, setAct] = useState([])
+
+    const [Nameact, setNameAct] = useState([])
 
     const { token } = isAuthenticated();
     const {id, fname, lname, u_id, major } = values
 
     const init = (userId) => {
-        read(userId, token).then(data => {
+        read(userId, token).then( async (data) => {
             if (data.error) {
                 setValues({ ...values, error: true });
             } else {
@@ -32,13 +34,33 @@ const Profile = ({ match }) => {
                     u_id: data.u_id,
                     major: data.major,
                 });
-               setAct(data.enrolling)
+               
             }
+
+            const getAllName = data.enrolling.map((value) => {
+                return getNameActivity(value)
+            })
+
+            const nameActivity = await Promise.all(getAllName)
+            setNameAct(nameActivity)
         });
+    }
+
+    
+    const getNameActivity = (actId) =>{
+        return new Promise( async (resolve, reject) => {
+            readAct(actId).then(data => {
+                if (data.error){ 
+                    return reject(data.error)
+                }
+                return resolve(data.name)
+            });
+        })
     }
 
     useEffect(() => {
         init(match.params.userId);
+        
     }, [])
 
     const profile = (id ,fname, lname, u_id, major ) => (
@@ -58,9 +80,14 @@ const Profile = ({ match }) => {
 
                 <div className="profile-datail">
                     กิจกรรมที่ลงทะเบียน
-                    <div className="row">
-                        <h1 className="col">{act}</h1>
-                    </div>
+                    {Nameact.map((value, index) => {
+                        return (
+                            <div className="row" key={index}>
+                                <p>{value}</p>
+                            </div>
+                        )
+                    })}
+           
                 </div>
 
                 <div className="edit-profile">
@@ -69,11 +96,11 @@ const Profile = ({ match }) => {
             </div>
         </div>
     )
-    console.log("กิจกรรม",act)
 
     return (
         <div>
             {profile(id ,fname, lname, u_id, major)}
+        
         </div>
     )
 }

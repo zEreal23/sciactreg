@@ -52,7 +52,7 @@ export const getMonthAct = (sortBy) => {
     .catch(err => console.log(err));
 }
 
-export const read = (actId) => {
+export const readAct = (actId) => {
     return fetch(`${API}/activity/${actId}`, {
         method: "GET"
     })
