@@ -33,7 +33,6 @@ const ActivityPage = props => {
                 if (data.error){ 
                     return reject(data.error)
                 }
-
                 return resolve(data)
             });
         })
@@ -43,10 +42,12 @@ const ActivityPage = props => {
     const fetchActivityById  = async (actId) => {
         try {
             const data = await getAct(actId)
+            console.log('data',data)
             setActivity(data)
             setEnrolluser(data.enrolluser.length)
             setEnrolled(checkEnroll(data.enrolluser))
             setFname(data.enrolluser)
+            console.log('user',data.enrolluser)
         } catch (error) {
             setError(error)
         }
@@ -126,7 +127,7 @@ const ActivityPage = props => {
                     <h3>Total {enrolluser} Enroll</h3>
                     {name.map((person, i) => (
                         <div key={i}>
-                            <p>{person.fname} {person.lname}</p>
+                            <p>{person.fname} {person.lname} {person.major}</p>
                         </div>
                     ))}
 

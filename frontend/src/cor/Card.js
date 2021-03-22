@@ -44,9 +44,9 @@ export const ActCard = ({ act }) => {
                 <div className="col"></div>
                 {isAuthenticated() && isAuthenticated().user.role === 1 && (
                     <div className="row col-4">
-                        <div className="badge badge-pill badge-success act-ed">
-                            <Link to={`/activity/edit/${act._id}`} style={{ textDecoration: 'none' }}>
-                                <i class="fas fa-plus"></i>
+                        <div className="badge badge-pill badge-primary act-ed">
+                            <Link to={`/activity/edit/${act._id}/${user.id}`} style={{ textDecoration: 'none' }}>
+                            <i class="far fa-edit"></i>
                             </Link>
                         </div>
                         <div className="badge badge-pill badge-danger act-ed"

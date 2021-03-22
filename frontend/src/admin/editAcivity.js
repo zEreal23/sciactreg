@@ -4,7 +4,7 @@ import { isAuthenticated } from '../auth';
 import { getCategories } from '../cor/apiCors';
 import { getAct, updateAct } from './apiAdmin';
 
-const EditActivity = ({ match, act }) => {
+const EditActivity = ({ match }) => {
     
     const [ values, setValues ] = useState({
         name: '',
@@ -51,6 +51,7 @@ const EditActivity = ({ match, act }) => {
                     hour: data.hour,
                     formData: new FormData()
                 });
+                console.log(data)
                 initCategories();
             }
         });
@@ -71,7 +72,7 @@ const EditActivity = ({ match, act }) => {
     }, []);
 
     const handleChange = name => event => {
-        formData.set(name, event.target.value);
+        
         setValues({ ...values, [name]: event.target.value });
     }
 
@@ -79,7 +80,7 @@ const EditActivity = ({ match, act }) => {
         event.preventDefault();
         setValues({ ...values, error: '' });
 
-        updateAct(match.params.actId, user._id, token, formData).then(data => {
+        updateAct(match.params.actId, user._id, token, values).then(data => {
             if (data.error) {
                 setValues({ ...values, error: data.error });
             } else {
@@ -108,7 +109,7 @@ const EditActivity = ({ match, act }) => {
     const redirectUser = () => {
         if(redirectToProfile) {
             if(!error) {
-                return <Redirect to={`/activity/${act._id}`} />
+                return <Redirect to={`/activity/${match.params.actId}`} />
             }
         }
     }

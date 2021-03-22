@@ -46,6 +46,16 @@ export const getCategories = () => {
     .catch(err => console.log(err));
 };
 
+export const getCategory = (categoryId) => {
+    return fetch(`${API}/category/${categoryId}`, {
+        method: "GET"
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err));
+};
+
 export const deleteAct = ( actId, userId, token ) => {
     return fetch(`${API}/activity/${actId}/${userId}`, {
         method: "DELETE",
@@ -62,6 +72,7 @@ export const deleteAct = ( actId, userId, token ) => {
 };
 
 export const updateAct = (actId, userId, token, act) => {
+    console.log('api',act)
     return fetch(`${API}/activity/${actId}/${userId}`,{
         method: "PUT",
         headers: {

@@ -74,7 +74,7 @@ const Admin = () => {
                     </li>
                 </ul>
             </div>
-            <div class="card-body">
+            <div className="card-body">
                 <div>
                     {activeTab}
                 </div>

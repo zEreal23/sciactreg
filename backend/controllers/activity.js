@@ -9,7 +9,7 @@ const { result } = require('lodash');
 
 exports.actById = (req, res, next, id) => {
     Act.findById(id)
-        .populate('enrolluser', '_id fname lname')
+        .populate('enrolluser', '_id fname lname major')
         .exec((err, act) => {
             if (err || !act) {
                 return res.status(400).json({
@@ -64,14 +64,28 @@ exports.create = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const activity = req.Act;
-    activity.name = req.body.name
+    const activity = req.act;
+    const { name, description, date, time, hour, category } = req.body;
+    activity.name = name
+    activity.description = description
+    activity.date = date
+    activity.time = time
+    activity.hour = hour
+    if(!category) {
+        category === activity.category
+        console.log(category)
+    } else {
+        activity.category = category
+    }
+
+
     activity.save((err, data) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
             })
         }
+        console.log('updated',activity)
         res.json({ data })
     })
 }
@@ -309,6 +323,7 @@ exports.enroll = async (req, res) => {
             })
         }
         const findUser = await User.findOne({_id: req.body.userId})
+        console.log('findUser',findUser)
         const checkActInUser = findUser.enrolling.filter(value => value==req.body.actId) 
         if(checkActInUser.length != 0){
             return res.status(400).json({
@@ -316,7 +331,7 @@ exports.enroll = async (req, res) => {
             });
         }
         const resultAct = await Act.findByIdAndUpdate(req.body.actId, { $push: { enrolluser: req.body.userId }}, { new: true })
-        .populate('enrolluser', ' fname lname')
+        .populate('enrolluser', 'fname lname major')
         const resultUser = await  User.findByIdAndUpdate(req.body.userId, { $push: { enrolling: req.body.actId } }, { new: true })
         .populate('enrolling', ' name')
         console.log('Act',resultAct,'User',resultUser)
@@ -366,7 +381,7 @@ exports.unroll = async(req, res) => {
         }
         
         const resultAct = await Act.findByIdAndUpdate(req.body.actId, { $pull: { enrolluser: req.body.userId }}, { new: true })
-        .populate('enrolluser', ' fname lname')
+        .populate('enrolluser', ' fname lname major')
         const resultUser = await  User.findByIdAndUpdate(req.body.userId, { $pull: { enrolling: req.body.actId } }, { new: true })
         .populate('enrolling', ' name')
         return res.status(200).json({...resultUser,enrolluser: resultUser.enrolling})
