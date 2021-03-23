@@ -21,9 +21,10 @@ const ActivityPage = props => {
     const [redirectToLogin, setRedirecttologin] = useState(false)
     const [error, setError] = useState(false)
 
+
     const checkEnroll = (enrolluser) => {
         const userId = isAuthenticated().user._id;
-        let match = enrolluser.filter(value => value._id == userId).length > 0;
+        let match = enrolluser.filter(value => value._id == userId).length > 0;//check ข้อมูลว่า id ตรงกับ id user ปัจจุบันหรือไม่หากเป็น 1 คือลงทะเบียนแล้ว หากเป็น 0 คือยังไม่ได้ลงทะเบียน
         return match;
     }
 
@@ -39,13 +40,18 @@ const ActivityPage = props => {
         
     }
 
+    /**
+     * ใช้ async await เพื่อให้มีการอข้อมูลจาก getAct ก่อนจะทำการเซ็คข้อมูล checkEnroll
+     * มันจะทำให้ try ก่อน หากมี error จะไปที่ catch
+     * ทำการเซ็ค data ที่ได้จาก getAct
+     */
     const fetchActivityById  = async (actId) => {
         try {
             const data = await getAct(actId)
             console.log('data',data)
             setActivity(data)
-            setEnrolluser(data.enrolluser.length)
-            setEnrolled(checkEnroll(data.enrolluser))
+            setEnrolluser(data.enrolluser.length) //จำนวน user ที่ลงทะเบียนทั้งหมด
+            setEnrolled(checkEnroll(data.enrolluser)) //ทำการเซ็คว่า user คนนั้นลงทะเบียนแล้วหรือยัง
             setFname(data.enrolluser)
             console.log('user',data.enrolluser)
         } catch (error) {
@@ -53,6 +59,11 @@ const ActivityPage = props => {
         }
     }
 
+    /*มีการลงทะเบียนหรือยกเบิกจะเปลี่ยน 
+    status loading เพื่อให้ animation loading ทำงาน 
+    จากนั้นให้ดึงข้อมูลกิจกรรมใหม่
+    และเปลี่ยน status loading อีกครั้งเพื่อให้ animation loading หยุดทำงาน
+    */ 
     const onInitActivity = async (actId) => {
         setLoading(true)
         await fetchActivityById(actId);
@@ -64,6 +75,7 @@ const ActivityPage = props => {
         onInitActivity(actId)
     }, [])
 
+    
     const EnrollToggle = () => {
         setLoading(true)
         if (!isAuthenticated()) {

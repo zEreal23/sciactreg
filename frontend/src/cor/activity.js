@@ -126,20 +126,3 @@ const Activity = () => {
 }
 
 export default Activity;
-
-/* 
-{isAuthenticated() && isAuthenticated().user.role ===1 && (
-                <div className="container cre-new">
-                    <div className="row">
-                        <div className="col-9">
-                            <AddCategory />
-                        </div>
-                        <div className="col-3">
-                        <Link to="/activity/create">
-                            <button type="button" className="btn btn-outline-primary">New Activity</button>
-                        </Link>
-                        </div>
-                    </div>
-                </div>
-            )}
-            */
