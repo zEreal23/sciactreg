@@ -34,14 +34,14 @@ exports.read = (req, res) => {
 };*/
 
 exports.update = async(req, res) => {
-    const { fname, lname ,password } = req.body;
+    const { fname, lname ,password, Tel } = req.body;
     if(!fname||!lname) {
         return res.status(400).json({
             error: 'Bad Request'
         });
     }
     
-   const data = await User.findOneAndUpdate({ _id: req.profile._id }, {$set:{fname:fname , lname:lname}})
+   const data = await User.findOneAndUpdate({ _id: req.profile._id }, {$set:{fname:fname , lname:lname, Tel:Tel}})
     console.log(data)
     return res.status(200).json(data)
 }
